@@ -9,7 +9,7 @@ def main():
         sys.exit(0)
 
     # Allocate emulator memory
-    e_mem = mem_class.Memory(["00"] * 65536, 0, 0, 0, 0, 0, 255)
+    e_mem = mem_class.Memory([0] * 65536, 0, 0, 0, 0, 0, 255)
 
     # Move on to display
     screen(e_mem)
@@ -35,11 +35,21 @@ def parse(e_mem):
         print("An unknown error has occurred while reading file. Please try again.")
         sys.exit(1)
 
-    # Read in file line-by-line
-    stream_in = file_in.readlines()
+    # Read in file as string
+    string_in = file_in.read()
+    string_in = string_in.replace("\n", "")
 
-    for i in stream_in:
-
+    # Parse string
+    segments = string_in.split(":")
+    for i in segments:
+        if len(i) != 0:
+            if i[7] != 1:
+                addr = i[2:5]
+                addr = int(addr, 16)
+                data = i[8:-2]
+                for j in range(0, len(data) + 2, 2):
+                    e_mem.memory[addr] = data[j:j+2]  # Store as string
+                    addr += 1
 
 
 if __name__ == "__main__":
