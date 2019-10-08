@@ -16,12 +16,12 @@ def main():
         parse(e_mem)
 
     # Get user input and evaluate
-    user_in = input()
+    user_in = input('> ')
 
     # Evaluate User input
     while user_in != "exit":
         screen(e_mem, user_in)
-        user_in = input()
+        user_in = input('> ')
 
     # Exit program
     print("Emulator Shutting Down...")
