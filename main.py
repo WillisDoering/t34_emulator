@@ -27,11 +27,12 @@ def evaluate(e_mem, user_in):
     user_in = user_in.split(' ')
     for i in range(len(user_in)):
         if user_in[i] == "exit":
-            print("Emulator Shutting Down...")
-            sys.exit(0)
+            scream_and_die()
         elif 'R' in user_in[i]:
             prog_run(user_in[i])
         elif ':' in user_in[i]:
+            if "exit" in user_in:
+                scream_and_die()
             edit_mem(e_mem, user_in[i:])
             break
         elif '.' in user_in[i]:
@@ -107,6 +108,11 @@ def parse_file(e_mem):
                 for j in range(0, len(data), 2):
                     e_mem.memory[addr] = data[j:j+2]  # Store as string
                     addr += 1
+
+
+def scream_and_die():
+    print("Emulator Shutting Down...")
+    sys.exit(0)
 
 
 if __name__ == "__main__":
