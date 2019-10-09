@@ -13,29 +13,33 @@ def main():
 
     # Check if file was given. If so, parse it into memory
     if len(sys.argv) == 2:
-        parse(e_mem)
+        parse_file(e_mem)
 
     # Get user input and evaluate
-    user_in = input('> ')
 
     # Evaluate User input
-    while user_in != "exit":
-        evaluate(e_mem, user_in)
+    while 1:
         user_in = input('> ')
-
-    # Exit program
-    print("Emulator Shutting Down...")
+        evaluate(e_mem, user_in)
 
 
 def evaluate(e_mem, user_in):
-    if 'R' in user_in:
-        prog_run(user_in)
-    elif ':' in user_in:
-        edit_mem(e_mem, user_in)
-    elif '.' in user_in:
-        print_range(e_mem, user_in)
-    else:
-        print_one(e_mem, user_in)
+    user_in = user_in.split(' ')
+    for i in range(len(user_in)):
+        if user_in[i] == "exit":
+            print("Emulator Shutting Down...")
+            sys.exit(0)
+        elif 'R' in user_in[i]:
+            prog_run(user_in[i])
+        elif ':' in user_in[i]:
+            edit_mem(e_mem, user_in[i:])
+            break
+        elif '.' in user_in[i]:
+            print_range(e_mem, user_in[i])
+        elif user_in[i] == '':
+            pass
+        else:
+            print_one(e_mem, user_in[i])
 
 
 def prog_run(user_in):
@@ -68,7 +72,6 @@ def print_range(e_mem, user_in):
 
 
 def edit_mem(e_mem, user_in):
-    user_in = user_in.split(' ')
     if len(user_in) > 1:
         addr_in = user_in[0][0:-1]  # Puts address in readable format
         curr_addr = int(addr_in, 16)
@@ -78,7 +81,7 @@ def edit_mem(e_mem, user_in):
             pos += 1
 
 
-def parse(e_mem):
+def parse_file(e_mem):
     # Open and parse file
     try:  # Attempt to open file
         file_in = open(sys.argv[1], "r")
