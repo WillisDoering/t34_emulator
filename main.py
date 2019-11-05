@@ -111,7 +111,7 @@ def parse_file(e_mem):
 
 
 def scream_and_die():
-    print("Emulator Shutting Down...")
+    print("Emulator Shutting Down...", file=sys.stderr)
     sys.exit(0)
 
 
