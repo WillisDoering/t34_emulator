@@ -9,7 +9,7 @@ def main():
         sys.exit(0)
 
     # Allocate emulator memory
-    e_mem = mem_class.Memory(["00"] * 65536, 0, 0, 0, 0, 0, 255)
+    e_mem = mem_class.Memory(65536, 0, 0, 0, 0, 0, 255)
 
     # Check if file was given. If so, parse it into memory
     if len(sys.argv) == 2:
@@ -51,7 +51,7 @@ def prog_run(user_in):
 def print_one(e_mem, user_in):
     user_in = user_in.split(' ')
     addr_in = int(user_in[0], 16)
-    print(user_in[0], ' ', e_mem.memory[addr_in])
+    print(user_in[0], ' ', '{:02X}'.format(e_mem.memory[addr_in]))
 
 
 def print_range(e_mem, user_in):
@@ -61,12 +61,11 @@ def print_range(e_mem, user_in):
         pos = 0
         for i in range(addr_in[0], addr_in[1] + 1):
             if (pos % 8) == 0:
-                addr_hex = hex(i)
-                print(addr_hex[2:], ' ', e_mem.memory[i], end=' ')
+                print('{:02X}'.format(i), ' ', '{:02X}'.format(e_mem.memory[i]), end=' ')
             elif (pos % 8) == 7:
-                print(e_mem.memory[i])
+                print('{:02X}'.format(e_mem.memory[i]))
             else:
-                print(e_mem.memory[i], end=' ')
+                print('{:02X}'.format(e_mem.memory[i]), end=' ')
             pos += 1
         if (pos % 8) != 0:
             print()
@@ -78,7 +77,7 @@ def edit_mem(e_mem, user_in):
         curr_addr = int(addr_in, 16)
         pos = 1
         for i in range(curr_addr, curr_addr + len(user_in) - 1):
-            e_mem.memory[i] = user_in[pos]
+            e_mem.memory[i] = int(user_in[pos], 16)
             pos += 1
 
 
@@ -106,7 +105,7 @@ def parse_file(e_mem):
                 addr = int(addr, 16)
                 data = i[8:-2]
                 for j in range(0, len(data), 2):
-                    e_mem.memory[addr] = data[j:j+2]  # Store as string
+                    e_mem.memory[addr] = int(data[j:j+2], 16)  # Store as string
                     addr += 1
 
 
