@@ -1,5 +1,7 @@
 import sys
 import memory as mem_class
+from prog_exec import prog_run
+
 
 def main():
     # Check system inputs and run correct commands
@@ -38,11 +40,6 @@ def evaluate(e_mem, user_in):
             pass
         else:
             print_one(e_mem, user_in[i])
-
-
-def prog_run(user_in):
-    print("PC  OPC  INS   AMOD OPRND  AC  XR YR SP NV-BDIZC")
-    print(user_in[0:-1])
 
 
 def print_one(e_mem, user_in):
