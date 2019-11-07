@@ -9,7 +9,7 @@ def main():
         sys.exit(0)
 
     # Allocate emulator memory
-    e_mem = mem_class.Memory(65536, 0, 0, 0, 0, 0, 255)
+    e_mem = mem_class.Memory(65536)
 
     # Check if file was given. If so, parse it into memory
     if len(sys.argv) == 2:

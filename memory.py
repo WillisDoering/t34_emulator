@@ -3,11 +3,13 @@
 
 # Status register (sr) is formatted with NV-BDIZC
 class Memory:
-    def __init__(self, mem_size, pc, ac, x, y, sr, sp):
-        self.memory = bytearray(mem_size)
-        self.pc = bytes(2)    # 16 bit
-        self.ac = bytes(1)    # 8 bit
-        self.x = bytes(1)     # 8 bit
-        self.y = bytes(1)     # 8 bit
-        self.sr = bytes(1)    # 8 bit, Format: NV-BDIZC
-        self.sp = bytes(1)    # 8 bit
+    def __init__(self, mem_size):
+        self.memory = bytearray(mem_size)   # Memory
+        self.registers = bytearray(7)       # All 6 registers in order as listed below
+        # pc: 16 bit
+        # ac:  8 bit
+        #  x:  8 bit
+        #  y:  8 bit
+        # sr:  8 bit
+        # sp:  8 bit (set to 255 below)
+        self.registers[6] = 255
