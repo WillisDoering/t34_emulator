@@ -1,7 +1,6 @@
 import sys
 import memory as mem_class
 
-
 def main():
     # Check system inputs and run correct commands
     if len(sys.argv) > 2:
@@ -14,8 +13,6 @@ def main():
     # Check if file was given. If so, parse it into memory
     if len(sys.argv) == 2:
         parse_file(e_mem)
-
-    # Get user input and evaluate
 
     # Evaluate User input
     while 1:
