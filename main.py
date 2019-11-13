@@ -28,7 +28,7 @@ def evaluate(e_mem, user_in):
         if user_in[i] == "exit":
             scream_and_die()
         elif 'R' in user_in[i]:
-            prog_run(user_in[i])
+            prog_run(e_mem, user_in[i])
         elif ':' in user_in[i]:
             if "exit" in user_in:
                 scream_and_die()
