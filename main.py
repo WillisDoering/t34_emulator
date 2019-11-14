@@ -11,6 +11,7 @@ def main():
 
     # Allocate emulator memory
     e_mem = mem_class.Memory(65536)
+    e_mem.registers[3] = 32
 
     # Check if file was given. If so, parse it into memory
     if len(sys.argv) == 2:
