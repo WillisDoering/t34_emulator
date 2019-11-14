@@ -13,6 +13,14 @@ def asl_a(e_mem):
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
 
 
+# 98: Transfer Index Y to Accumulator
+def tya(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[0] = e_mem.registers[2]
+    op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)
+
+
 # C8: Increment Index Y by One
 def iny(e_mem):
     pc = e_mem.pc
