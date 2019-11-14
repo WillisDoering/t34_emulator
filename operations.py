@@ -10,12 +10,19 @@ def op_print(pc, op, ins, amod, oprnd, e_mem):
 def asl_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
-
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
 
 
+# C8: Increment Index Y by One
+def iny(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[2] += 1
+    op_print(pc, "C8", "INY", "impl", "-- --", e_mem)
+
+
+# EA: No Operation
 def nop(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
-
     op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)

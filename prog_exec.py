@@ -3,6 +3,7 @@ import operations as op
 
 opc_table = {
     10: op.asl_a,   # 0A
+    200: op.iny,    # C8
     234: op.nop,    # EA
 }
 
