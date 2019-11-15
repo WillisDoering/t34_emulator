@@ -58,7 +58,6 @@ def iny(e_mem):
             e_mem.registers[2] = 0
             e_mem.registers[3] = e_mem.registers[3] | 2
 
-    e_mem.registers[2] += 1
     op_print(pc, "C8", "INY", "impl", "-- --", e_mem)
 
 
