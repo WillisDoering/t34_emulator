@@ -19,13 +19,14 @@ def prog_run(e_mem, user_in):
     # Setup program execution
     pc = int(user_in[0:-1], 16)
     e_mem.pc = pc
-    cont = True
+    e_mem.registers[3] = e_mem.registers[3] & 251
+
 # Spacer  |123456789|123456789|123456789|123456789|123456789|
     print("PC  OPC  INS   AMOD OPRND  AC XR YR SP NV-BDIZC")
 
     # Run program until break
-    while cont:
+    while not (e_mem.registers[3] & 4):
         opc = e_mem.memory[e_mem.pc]
 
         func = opc_table.get(opc, op.inv_error)
-        cont = func(e_mem)
+        func(e_mem)
