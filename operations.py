@@ -30,6 +30,21 @@ def pha(e_mem):
     return True
 
 
+# 68: Pull Accumulator from Stack
+def pla(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
+    e_mem.registers[4] += 1
+    e_mem.registers[0] = e_mem.memory[e_mem.registers[4] + 256]
+    if e_mem.registers[0] > 127:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    elif e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    op_print(pc, "68", "PLA", "impl", "-- --", e_mem)
+    return True
+
+
 # 8A: Transfer Index X to Accumulator
 def txa(e_mem):
     pc = e_mem.pc

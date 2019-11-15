@@ -4,6 +4,7 @@ import operations as op
 opc_table = {
     10: op.asl_a,   # 0A
     72: op.pha,     # 48
+    104: op.pla,    # 68
     138: op.txa,    # 8A
     152: op.tya,    # 98
     200: op.iny,    # C8
