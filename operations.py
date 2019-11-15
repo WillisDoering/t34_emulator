@@ -29,9 +29,12 @@ def brk(e_mem):
     return False
 
 
+# 0A: Shift Left One Bit (Memory)
 def asl_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
+    e_mem.registers[0] = e_mem.registers[0] & 127
+    e_mem.registers[0] = e_mem.registers[0] << 1
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
     return True
 
