@@ -205,11 +205,11 @@ def iny(e_mem):
 
 
 # D8: Clear Decimal Mode
-def clc(e_mem):
+def cld(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
     e_mem.registers[3] = e_mem.registers[3] & 247
-    op_print(pc, "18", "CLC", "impl", "-- --", e_mem)
+    op_print(pc, "D8", "CLD", "impl", "-- --", e_mem)
 
 
 # E8: Increment Index X by One
