@@ -24,7 +24,7 @@ def prog_run(e_mem, user_in):
     while e_mem.memory[e_mem.pc] != 0:
         opc = e_mem.memory[e_mem.pc]
 
-        func = opc_table.get(opc)
+        func = opc_table.get(opc, op.inv_error)
         func(e_mem)
 
         # TODO: run opcode and update pc

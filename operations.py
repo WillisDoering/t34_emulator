@@ -8,7 +8,7 @@ def op_print(pc, op, ins, amod, oprnd, e_mem):
 
 
 def inv_error(e_mem):
-    print("Invalid Operation", e_mem.memory[e_mem.pc])
+    print("Invalid Operation", '{:02X}'.format(e_mem.memory[e_mem.pc]))
     e_mem.pc += 1
 
 
