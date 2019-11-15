@@ -150,6 +150,19 @@ def tya(e_mem):
     op_print(pc, "98", "TYA", "impl", "-- --", e_mem)
 
 
+# A8: Transfer Accumulator to Index Y
+def tay(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
+    e_mem.registers[2] = e_mem.registers[0]
+    if e_mem.registers[2] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    if e_mem.registers[2] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    op_print(pc, "A8", "TAY", "impl", "-- --", e_mem)
+
+
 # C8: Increment Index Y by One
 def iny(e_mem):
     pc = e_mem.pc
