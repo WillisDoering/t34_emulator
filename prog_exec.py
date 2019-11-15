@@ -3,9 +3,12 @@ import operations as op
 
 opc_table = {
     0:   op.brk,        # 00
+    8:   op.php,        # 08
     10:  op.asl_a,      # 0A
     24:  op.clc,        # 18
+    40:  op.plp,        # 28
     42:  op.rol_a,      # 2A
+    56:  op.sec,        # 38
     72:  op.pha,        # 48
     74:  op.lsr_a,      # 4A
     58:  op.cli,        # 58

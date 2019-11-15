@@ -28,6 +28,15 @@ def brk(e_mem):
     op_print(pc, "00", "BRK", "impl", "-- --", e_mem)
 
 
+# 08: Push Processor Status on Stack
+def php(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.memory[e_mem.registers[4] + 256] = e_mem.registers[3]
+    e_mem.registers[4] -= 1
+    op_print(pc, "08", "PHP", "impl", "-- --", e_mem)
+
+
 # 0A: Shift Left One Bit (Accumulator)
 def asl_a(e_mem):
     pc = e_mem.pc
@@ -52,6 +61,15 @@ def clc(e_mem):
     op_print(pc, "18", "CLC", "impl", "-- --", e_mem)
 
 
+# 28: Pull Processor Status from Stack
+def plp(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[4] += 1
+    e_mem.registers[0] = e_mem.memory[e_mem.registers[4] + 256]
+    op_print(pc, "28", "PLP", "impl", "-- --", e_mem)
+
+
 # 2A: Rotate One Bit Left (Accumulator)
 def rol_a(e_mem):
     pc = e_mem.pc
@@ -67,6 +85,14 @@ def rol_a(e_mem):
     if e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "2A", "ROL", "   A", "-- --", e_mem)
+
+
+# 38: Set Carry Flag
+def sec(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] | 1
+    op_print(pc, "38", "SEC", "impl", "-- --", e_mem)
 
 
 # 48: Push Accumulator on Stack
