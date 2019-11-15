@@ -32,8 +32,15 @@ def brk(e_mem):
 def asl_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
-    e_mem.registers[0] = e_mem.registers[0] & 127
+    e_mem.registers[3] = e_mem.registers[3] & 124
+    if e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+        e_mem.registers[0] = e_mem.registers[0] & 127
     e_mem.registers[0] = e_mem.registers[0] << 1
+    if e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
 
 
