@@ -315,3 +315,11 @@ def nop(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
     op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)
+
+
+# F8: Set Decimal Flag
+def sed(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] | 8
+    op_print(pc, "F8", "SED", "impl", "-- --", e_mem)

@@ -25,6 +25,7 @@ opc_table = {
     216: op.cld,        # D8
     232: op.inx,        # E8
     234: op.nop,        # EA
+    248: op.sed,        # F8
 }
 
 
