@@ -3,10 +3,12 @@ import operations as op
 
 opc_table = {
     10: op.asl_a,   # 0A
+    72: op.pha,     # 48
     152: op.tya,    # 98
     200: op.iny,    # C8
     234: op.nop,    # EA
 }
+
 
 
 def prog_run(e_mem, user_in):

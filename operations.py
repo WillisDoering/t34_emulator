@@ -13,6 +13,16 @@ def asl_a(e_mem):
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
 
 
+# 48: Push Accumulator on Stack
+def pha(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    stack = 256 + e_mem.registers[4]
+    e_mem.memory[stack] = e_mem.registers[0]
+    e_mem.registers[4] -= 1
+    op_print(pc, "48", "PHA", "impl", "-- --", e_mem)
+
+
 # 98: Transfer Index Y to Accumulator
 def tya(e_mem):
     pc = e_mem.pc
