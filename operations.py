@@ -214,6 +214,14 @@ def tya(e_mem):
     op_print(pc, "98", "TYA", "impl", "-- --", e_mem)
 
 
+# 9A: Transfer Index X to Stack Register
+def txs(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[1]
+    op_print(pc, "9A", "TXS", "impl", "-- --", e_mem)
+
+
 # A8: Transfer Accumulator to Index Y
 def tay(e_mem):
     pc = e_mem.pc
