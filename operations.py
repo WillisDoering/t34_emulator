@@ -28,13 +28,30 @@ def brk(e_mem):
     op_print(pc, "00", "BRK", "impl", "-- --", e_mem)
 
 
-# 0A: Shift Left One Bit (Memory)
+# 0A: Shift Left One Bit (Accumulator)
 def asl_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
     e_mem.registers[0] = e_mem.registers[0] & 127
     e_mem.registers[0] = e_mem.registers[0] << 1
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
+
+
+# 2A: Rotate One Bit Left (Accumulator)
+def rol_a(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 124
+    roll_value = (e_mem.registers[0] & 128) >> 7
+    e_mem.registers[0] = (e_mem.registers[0] & 127) << 1
+    e_mem.registers[0] += roll_value
+    if roll_value:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+    if e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    op_print(pc, "2A", "ROL", "   A", "-- --", e_mem)
 
 
 # 48: Push Accumulator on Stack
