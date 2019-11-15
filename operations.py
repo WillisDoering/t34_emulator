@@ -85,6 +85,23 @@ def pla(e_mem):
     op_print(pc, "68", "PLA", "impl", "-- --", e_mem)
 
 
+# 6A: Rotate One Bit Right (Accumulator)
+def ror_a(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 124
+    roll_value = (e_mem.registers[0] & 1) << 7
+    e_mem.registers[0] = (e_mem.registers[0] & 127) >> 1
+    e_mem.registers[0] += roll_value
+    if roll_value:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+    if e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    op_print(pc, "6A", "ROR", "   A", "-- --", e_mem)
+
+
 # 88: Decrement Index Y by One
 def dey(e_mem):
     pc = e_mem.pc
