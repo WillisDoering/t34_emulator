@@ -22,8 +22,6 @@ def prog_run(e_mem, user_in):
 # Spacer  |123456789|123456789|123456789|123456789|123456789|
     print("PC  OPC  INS   AMOD OPRND  AC XR YR SP NV-BDIZC")
 
-    # TODO: Add variables for all values in all fields printed
-
     # Run program until break
     while cont:
         opc = e_mem.memory[e_mem.pc]
