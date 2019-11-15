@@ -6,6 +6,7 @@ opc_table = {
     72: op.pha,     # 48
     152: op.tya,    # 98
     200: op.iny,    # C8
+    232: op.inx,    # E8
     234: op.nop,    # EA
 }
 

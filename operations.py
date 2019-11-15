@@ -65,6 +65,27 @@ def iny(e_mem):
     return True
 
 
+# E8: Increment Index X by One
+def inx(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    if e_mem.registers[1] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+        e_mem.registers[1] += 1
+        if e_mem.registers[1] == 0:
+            e_mem.registers[3] = e_mem.registers[3] & 127
+            e_mem.registers[3] = e_mem.registers[3] | 2
+    else:
+        e_mem.registers[1] += 1
+        e_mem.registers[3] = e_mem.registers[3] & 127
+        if e_mem.registers[1] > 127:
+            e_mem.registers[1] = 0
+            e_mem.registers[3] = e_mem.registers[3] | 2
+
+    op_print(pc, "E8", "INX", "impl", "-- --", e_mem)
+    return True
+
+
 # EA: No Operation
 def nop(e_mem):
     pc = e_mem.pc
