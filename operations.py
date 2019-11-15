@@ -7,6 +7,11 @@ def op_print(pc, op, ins, amod, oprnd, e_mem):
           '{:08b}'.format(e_mem.registers[3]))
 
 
+def inv_error(e_mem):
+    print("Invalid Operation", e_mem.memory[e_mem.pc])
+    e_mem.pc += 1
+
+
 def asl_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
