@@ -14,16 +14,17 @@ def prog_run(e_mem, user_in):
     # Setup program execution
     pc = int(user_in[0:-1], 16)
     e_mem.pc = pc
+    cont = True
 # Spacer  |123456789|123456789|123456789|123456789|123456789|
     print("PC  OPC  INS   AMOD OPRND  AC XR YR SP NV-BDIZC")
 
     # TODO: Add variables for all values in all fields printed
 
     # Run program until break
-    while e_mem.memory[e_mem.pc] != 0:
+    while cont:
         opc = e_mem.memory[e_mem.pc]
 
         func = opc_table.get(opc, op.inv_error)
-        func(e_mem)
+        cont = func(e_mem)
 
         # TODO: run opcode and update pc
