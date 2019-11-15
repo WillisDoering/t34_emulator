@@ -14,6 +14,7 @@ opc_table = {
     58:  op.cli,        # 58
     104: op.pla,        # 68
     106: op.ror_a,      # 6A
+    120: op.sei,        # 78
     136: op.dey,        # 88
     138: op.txa,        # 8A
     152: op.tya,        # 98
