@@ -7,6 +7,7 @@ opc_table = {
     24:  op.clc,        # 18
     42:  op.rol_a,      # 2A
     72:  op.pha,        # 48
+    74:  op.lsr_a,      # 4A
     58:  op.cli,        # 58
     104: op.pla,        # 68
     106: op.ror_a,      # 6A

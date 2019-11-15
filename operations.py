@@ -79,6 +79,20 @@ def pha(e_mem):
     op_print(pc, "48", "PHA", "impl", "-- --", e_mem)
 
 
+# 4A: Shift One Bit Right (Accumulator)
+def lsr_a(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 252
+    if e_mem.registers[0] & 1:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+        e_mem.registers[0] = e_mem.registers[0] & 254
+    e_mem.registers[0] = e_mem.registers[0] >> 1
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    op_print(pc, "4A", "LSR", "   A", "-- --", e_mem)
+
+
 # 58: Clear Interrupt Disable Bit
 def cli(e_mem):
     pc = e_mem.pc
