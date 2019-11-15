@@ -54,7 +54,7 @@ def tya(e_mem):
         e_mem.registers[3] = e_mem.registers[3] | 128
     elif e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
-    op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)
+    op_print(pc, "98", "TYA", "impl", "-- --", e_mem)
     return True
 
 
