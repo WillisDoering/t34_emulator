@@ -40,6 +40,19 @@ def tya(e_mem):
 def iny(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
+    if e_mem.registers[2] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+        e_mem.registers[2] += 1
+        if e_mem.registers[2] == 0:
+            e_mem.registers[3] = e_mem.registers[3] & 127
+            e_mem.registers[3] = e_mem.registers[3] | 2
+    else:
+        e_mem.registers[2] += 1
+        e_mem.registers[3] = e_mem.registers[3] & 127
+        if e_mem.registers[2] > 127:
+            e_mem.registers[2] = 0
+            e_mem.registers[3] = e_mem.registers[3] | 2
+
     e_mem.registers[2] += 1
     op_print(pc, "C8", "INY", "impl", "-- --", e_mem)
 

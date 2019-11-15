@@ -10,7 +10,6 @@ opc_table = {
 }
 
 
-
 def prog_run(e_mem, user_in):
     # Setup program execution
     pc = int(user_in[0:-1], 16)
