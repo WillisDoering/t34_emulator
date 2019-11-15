@@ -32,7 +32,12 @@ def pha(e_mem):
 def tya(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
     e_mem.registers[0] = e_mem.registers[2]
+    if e_mem.registers[0] > 127:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    elif e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)
 
 
