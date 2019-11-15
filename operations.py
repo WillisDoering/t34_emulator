@@ -220,6 +220,28 @@ def iny(e_mem):
     op_print(pc, "C8", "INY", "impl", "-- --", e_mem)
 
 
+# CA: Decrement Index X by One
+def dex(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
+    if e_mem.registers[1] & 128:
+        e_mem.registers[1] -= 1
+        if e_mem.registers[1] < 128:
+            e_mem.registers[1] = 0
+            e_mem.registers[3] = e_mem.registers[3] | 2
+        else:
+            e_mem.registers[3] = e_mem.registers[3] | 128
+    else:
+        if e_mem.registers[1] == 0:
+            e_mem.registers[1] = 255
+            e_mem.registers[3] = e_mem.registers[3] | 128
+        else:
+            e_mem.registers[1] -= 1
+
+    op_print(pc, "CA", "DEX", "impl", "-- --", e_mem)
+
+
 # D8: Clear Decimal Mode
 def cld(e_mem):
     pc = e_mem.pc
