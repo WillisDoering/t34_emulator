@@ -36,7 +36,7 @@ def prog_run(e_mem, user_in):
     # Setup program execution
     pc = int(user_in[0:-1], 16)
     e_mem.pc = pc
-    e_mem.registers[3] = e_mem.registers[3] & 251
+    e_mem.registers[3] = e_mem.registers[3] & 32
 
 # Spacer  |123456789|123456789|123456789|123456789|123456789|
     print("PC  OPC  INS   AMOD OPRND  AC XR YR SP NV-BDIZC")
