@@ -192,6 +192,14 @@ def tax(e_mem):
     op_print(pc, "A8", "TAY", "impl", "-- --", e_mem)
 
 
+# B8: Clear Overflow Flag
+def clv(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 191
+    op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)
+
+
 # C8: Increment Index Y by One
 def iny(e_mem):
     pc = e_mem.pc
