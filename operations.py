@@ -197,7 +197,7 @@ def clv(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
     e_mem.registers[3] = e_mem.registers[3] & 191
-    op_print(pc, "EA", "NOP", "impl", "-- --", e_mem)
+    op_print(pc, "B8", "CLV", "impl", "-- --", e_mem)
 
 
 # C8: Increment Index Y by One
