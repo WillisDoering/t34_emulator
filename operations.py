@@ -248,6 +248,14 @@ def clv(e_mem):
     op_print(pc, "B8", "CLV", "impl", "-- --", e_mem)
 
 
+# BA: Transfer Stack Pointer to Index X
+def tsx(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[1] = e_mem.registers[3]
+    op_print(pc, "BA", "TSX", "impl", "-- --", e_mem)
+
+
 # C8: Increment Index Y by One
 def iny(e_mem):
     pc = e_mem.pc

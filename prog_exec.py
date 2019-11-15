@@ -21,6 +21,7 @@ opc_table = {
     168: op.tay,        # A8
     170: op.tax,        # AA
     184: op.clv,        # B8
+    186: op.tsx,        # BA
     200: op.iny,        # C8
     202: op.dex,        # CA
     216: op.cld,        # D8
