@@ -30,6 +30,20 @@ def pha(e_mem):
     return True
 
 
+# 8A: Transfer Index X to Accumulator
+def txa(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
+    e_mem.registers[0] = e_mem.registers[1]
+    if e_mem.registers[0] > 127:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    elif e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    op_print(pc, "8A", "TXA", "impl", "-- --", e_mem)
+    return True
+
+
 # 98: Transfer Index Y to Accumulator
 def tya(e_mem):
     pc = e_mem.pc
