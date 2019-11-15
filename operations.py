@@ -79,6 +79,14 @@ def pha(e_mem):
     op_print(pc, "48", "PHA", "impl", "-- --", e_mem)
 
 
+# 58: Clear Interrupt Disable Bit
+def cli(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 251
+    op_print(pc, "58", "CLI", "impl", "-- --", e_mem)
+
+
 # 68: Pull Accumulator from Stack
 def pla(e_mem):
     pc = e_mem.pc
