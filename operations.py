@@ -44,6 +44,14 @@ def asl_a(e_mem):
     op_print(pc, "0A", "ASL", "   A", "-- --", e_mem)
 
 
+# 18: Clear Cary Flag
+def clc(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 254
+    op_print(pc, "18", "CLC", "impl", "-- --", e_mem)
+
+
 # 2A: Rotate One Bit Left (Accumulator)
 def rol_a(e_mem):
     pc = e_mem.pc
