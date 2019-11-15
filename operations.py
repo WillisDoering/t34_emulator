@@ -12,6 +12,23 @@ def inv_error(e_mem):
     return False
 
 
+# 00: Force Break
+def brk(e_mem):
+    pc = e_mem.pc
+    e_mem.registers[3] = e_mem.registers[3] | 20
+    pc_push = (e_mem.pc + 2) % 256
+    e_mem.memory[e_mem.registers[4] + 256] = pc_push
+    e_mem.registers[4] -= 1
+    pc_push = int((e_mem.pc + 2) / 256)
+    e_mem.memory[e_mem.registers[4] + 256] = pc_push
+    e_mem.registers[4] -= 1
+    e_mem.memory[e_mem.registers[4] + 256] = e_mem.registers[3]
+    e_mem.registers[4] -= 1
+
+    op_print(pc, "00", "BRK", "impl", "-- --", e_mem)
+    return False
+
+
 def asl_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1

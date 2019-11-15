@@ -2,6 +2,7 @@ import memory as mem
 import operations as op
 
 opc_table = {
+    0: op.brk,      # 00
     10: op.asl_a,   # 0A
     72: op.pha,     # 48
     104: op.pla,    # 68
