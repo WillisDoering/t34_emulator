@@ -62,6 +62,29 @@ def pla(e_mem):
     return True
 
 
+# 88: Decrement Index Y by One
+def dey(e_mem):
+    pc = e_mem.pc
+    e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
+    if e_mem.registers[2] & 128:
+        e_mem.registers[2] -= 1
+        if e_mem.registers[2] < 128:
+            e_mem.registers[2] = 0
+            e_mem.registers[3] = e_mem.registers[3] | 2
+        else:
+            e_mem.registers[3] = e_mem.registers[3] | 128
+    else:
+        if e_mem.registers[2] == 0:
+            e_mem.registers[2] = 255
+            e_mem.registers[3] = e_mem.registers[3] | 128
+        else:
+            e_mem.registers[2] -= 1
+
+    op_print(pc, "88", "DEY", "impl", "-- --", e_mem)
+    return True
+
+
 # 8A: Transfer Index X to Accumulator
 def txa(e_mem):
     pc = e_mem.pc
