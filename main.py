@@ -23,7 +23,7 @@ def main():
             # TODO: Reinsert '> ' into input
             user_in = input()
         except EOFError:
-            sys.exit(0)
+            scream_and_die()
         evaluate(e_mem, user_in)
 
 
@@ -109,7 +109,8 @@ def parse_file(e_mem):
 
 
 def scream_and_die():
-    print("Emulator Shutting Down...", file=sys.stderr)
+    # TODO: Uncomment
+    # print("Emulator Shutting Down...", file=sys.stderr)
     sys.exit(0)
 
 
