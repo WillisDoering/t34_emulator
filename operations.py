@@ -200,12 +200,24 @@ def ror_a(e_mem):
     op_print(pc, "6A", "ROR", "   A", "-- --", e_mem)
 
 
-# 78: Set Interupt Disable Status
+# 78: Set Interrupt Disable Status
 def sei(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
     e_mem.registers[3] = e_mem.registers[3] | 4
     op_print(pc, "78", "SEI", "impl", "-- --", e_mem)
+
+
+# 85: Store Accumulator in Memory (zeropage)
+def sta_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+
+    e_mem.memory[op1] = e_mem.registers[0]
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "85", "STA", " zpg", oprnd, e_mem)
 
 
 # 88: Decrement Index Y by One
