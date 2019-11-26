@@ -13,6 +13,7 @@ opc_table = {
     74:  op.lsr_a,      # 4A
     58:  op.cli,        # 58
     104: op.pla,        # 68
+    105: op.adc_imme,   # 69
     106: op.ror_a,      # 6A
     120: op.sei,        # 78
     136: op.dey,        # 88

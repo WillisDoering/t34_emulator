@@ -12,6 +12,34 @@ def inv_error(e_mem):
     e_mem.registers[3] = e_mem.registers[3] | 4
 
 
+# Returns result and flags for operation
+def sign_add(op1, op2):
+    flags = 32
+    if op1 & 128:
+        op1 = op1 & 127
+        op1 -= 128
+
+    if op2 & 128:
+        op2 = op2 & 127
+        op2 -= 128
+
+    result = op1 + op2
+
+    if result == 0:
+        flags = flags | 2
+    elif result > 127:
+        result -= 128
+        flags = flags | 65
+    elif result < 0:
+        result += 128
+        flags = flags | 128
+        if result < 0:
+            result += 128
+            flags = flags | 64
+
+    return result, flags
+
+
 # 00: Force Break
 def brk(e_mem):
     pc = e_mem.pc
@@ -139,6 +167,20 @@ def pla(e_mem):
     elif e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "68", "PLA", "impl", "-- --", e_mem)
+
+
+# 69: Add Memory to Accumulator with Carry (immediate)
+def adc_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 60
+
+    e_mem.registers[0], flags = sign_add(op1, e_mem.registers[0])
+    e_mem.registers[3] = e_mem.registers[3] | flags
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "69", "ADC", "   #", oprnd, e_mem)
 
 
 # 6A: Rotate One Bit Right (Accumulator)
