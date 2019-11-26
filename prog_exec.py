@@ -22,8 +22,10 @@ opc_table = {
     152: op.tya,        # 98
     154: op.txs,        # 9A
     162: op.ldx_imme,   # A2
+    165: op.lda_zpg,    # A5
     168: op.tay,        # A8
     170: op.tax,        # AA
+    173: op.lda_abs,    # AD
     184: op.clv,        # B8
     186: op.tsx,        # BA
     200: op.iny,        # C8

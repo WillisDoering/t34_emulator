@@ -295,6 +295,23 @@ def ldx_imme(e_mem):
     op_print(pc, "A2", "LDX", "   #", oprnd, e_mem)
 
 
+# A5: Load Accumulator with memory (zeropage)
+def lda_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = e_mem.memory[op1]
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "A5", "LDA", " zpg", oprnd, e_mem)
+
+
 # A8: Transfer Accumulator to Index Y
 def tay(e_mem):
     pc = e_mem.pc
@@ -319,6 +336,24 @@ def tax(e_mem):
     if e_mem.registers[1] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "A8", "TAY", "impl", "-- --", e_mem)
+
+
+# AD: Load Accumulator with Memory (absolute)
+def lda_abs(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    op2 = e_mem.memory[e_mem.pc + 2]
+    e_mem.pc += 3
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = e_mem.memory[(op2 * 256) + op1]
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
+    op_print(pc, "AD", "LDA", " abs", oprnd, e_mem)
 
 
 # B8: Clear Overflow Flag
