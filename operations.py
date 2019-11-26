@@ -264,6 +264,25 @@ def txs(e_mem):
     op_print(pc, "9A", "TXS", "impl", "-- --", e_mem)
 
 
+# A2: Load Index X with Memory (immediate)
+def ldx_imme(e_mem):
+    pc = e_mem.pc
+    flag_set = 0
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[1] = op1
+    if e_mem.registers[1] & 128:
+        flag_set += 128
+    if e_mem.registers[1] == 0:
+        flag_set += 0
+    e_mem.registers[3] = e_mem.registers[3] | flag_set
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "A2", "LDX", "   #", oprnd, e_mem)
+
+
 # A8: Transfer Accumulator to Index Y
 def tay(e_mem):
     pc = e_mem.pc
