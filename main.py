@@ -19,7 +19,11 @@ def main():
 
     # Evaluate User input
     while 1:
-        user_in = input('> ')
+        try:
+            # TODO: Reinsert '> ' into input
+            user_in = input()
+        except EOFError:
+            sys.exit(0)
         evaluate(e_mem, user_in)
 
 
