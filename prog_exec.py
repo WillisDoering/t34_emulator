@@ -29,6 +29,7 @@ opc_table = {
     200: op.iny,        # C8
     202: op.dex,        # CA
     216: op.cld,        # D8
+    230: op.inc_zpg,    # E6
     232: op.inx,        # E8
     234: op.nop,        # EA
     248: op.sed,        # F8

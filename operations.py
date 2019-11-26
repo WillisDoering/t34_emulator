@@ -387,6 +387,27 @@ def cld(e_mem):
     op_print(pc, "D8", "CLD", "impl", "-- --", e_mem)
 
 
+# E6: Increment Memory by One (zeropage)
+def inc_zpg(e_mem):
+    pc = e_mem.pc
+    flags = 0
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.memory[op1] += 1
+    if e_mem.memory[op1] == 0:
+        flags += 2
+    elif e_mem.memory[op1] > 127:
+        e_mem.memory[op1] = 0
+        flags += 128
+
+    e_mem.registers[3] = e_mem.registers[3] | flags
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "E6", "INC", " zpg", oprnd, e_mem)
+
+
 # E8: Increment Index X by One
 def inx(e_mem):
     pc = e_mem.pc
