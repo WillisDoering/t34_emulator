@@ -384,7 +384,7 @@ def clv(e_mem):
 def tsx(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
-    e_mem.registers[1] = e_mem.registers[3]
+    e_mem.registers[1] = e_mem.registers[4]
     op_print(pc, "BA", "TSX", "impl", "-- --", e_mem)
 
 
