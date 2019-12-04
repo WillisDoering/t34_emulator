@@ -288,7 +288,7 @@ def tya(e_mem):
 def txs(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
-    e_mem.registers[3] = e_mem.registers[1]
+    e_mem.registers[4] = e_mem.registers[1]
     op_print(pc, "9A", "TXS", "impl", "-- --", e_mem)
 
 
