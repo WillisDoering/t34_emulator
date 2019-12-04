@@ -2,40 +2,40 @@ import memory as mem
 import operations as op
 
 opc_table = {
-    0:   op.brk,        # 00
-    8:   op.php,        # 08
-    10:  op.asl_a,      # 0A
-    24:  op.clc,        # 18
-    40:  op.plp,        # 28
-    42:  op.rol_a,      # 2A
-    56:  op.sec,        # 38
-    72:  op.pha,        # 48
-    74:  op.lsr_a,      # 4A
-    58:  op.cli,        # 58
-    104: op.pla,        # 68
-    105: op.adc_imme,   # 69
-    106: op.ror_a,      # 6A
-    109: op.adc_abs,    # 6D
-    120: op.sei,        # 78
-    133: op.sta_zpg,    # 85
-    136: op.dey,        # 88
-    138: op.txa,        # 8A
-    152: op.tya,        # 98
-    154: op.txs,        # 9A
-    162: op.ldx_imme,   # A2
-    165: op.lda_zpg,    # A5
-    168: op.tay,        # A8
-    170: op.tax,        # AA
-    173: op.lda_abs,    # AD
-    184: op.clv,        # B8
-    186: op.tsx,        # BA
-    200: op.iny,        # C8
-    202: op.dex,        # CA
-    216: op.cld,        # D8
-    230: op.inc_zpg,    # E6
-    232: op.inx,        # E8
-    234: op.nop,        # EA
-    248: op.sed,        # F8
+    0x00:   op.brk,
+    0x08:   op.php,
+    0x0A:  op.asl_a,
+    0x18:  op.clc,
+    0x28:  op.plp,
+    0x2A:  op.rol_a,
+    0x38:  op.sec,
+    0x48:  op.pha,
+    0x4A:  op.lsr_a,
+    0x58:  op.cli,
+    0x68: op.pla,
+    0x69: op.adc_imme,
+    0x6A: op.ror_a,
+    0x6D: op.adc_abs,
+    0x78: op.sei,
+    0x85: op.sta_zpg,
+    0x88: op.dey,
+    0x8A: op.txa,
+    0x98: op.tya,
+    0x9A: op.txs,
+    0xA2: op.ldx_imme,
+    0xA5: op.lda_zpg,
+    0xA8: op.tay,
+    0xAA: op.tax,
+    0xAD: op.lda_abs,
+    0xB8: op.clv,
+    0xBA: op.tsx,
+    0xC8: op.iny,
+    0xCA: op.dex,
+    0xD8: op.cld,
+    0xE6: op.inc_zpg,
+    0xE8: op.inx,
+    0xEA: op.nop,
+    0xF8: op.sed,
 }
 
 
