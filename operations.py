@@ -244,7 +244,6 @@ def dey(e_mem):
         e_mem.registers[2] -= 1
         if e_mem.registers[2] < 128:
             e_mem.registers[2] = 0
-            e_mem.registers[3] = e_mem.registers[3] | 2
         else:
             e_mem.registers[3] = e_mem.registers[3] | 128
     else:
@@ -253,6 +252,8 @@ def dey(e_mem):
             e_mem.registers[3] = e_mem.registers[3] | 128
         else:
             e_mem.registers[2] -= 1
+    if e_mem.registers[2] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
 
     op_print(pc, "88", "DEY", "impl", "-- --", e_mem)
 
@@ -416,7 +417,6 @@ def dex(e_mem):
         e_mem.registers[1] -= 1
         if e_mem.registers[1] < 128:
             e_mem.registers[1] = 0
-            e_mem.registers[3] = e_mem.registers[3] | 2
         else:
             e_mem.registers[3] = e_mem.registers[3] | 128
     else:
@@ -425,6 +425,8 @@ def dex(e_mem):
             e_mem.registers[3] = e_mem.registers[3] | 128
         else:
             e_mem.registers[1] -= 1
+    if e_mem.registers[1] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
 
     op_print(pc, "CA", "DEX", "impl", "-- --", e_mem)
 
