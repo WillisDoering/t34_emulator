@@ -102,15 +102,24 @@ def plp(e_mem):
 def rol_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
+    if e_mem.registers[3] & 1:
+        carry_in = True
+    else:
+        carry_in = False
     e_mem.registers[3] = e_mem.registers[3] & 124
-    roll_value = (e_mem.registers[0] & 128) >> 7
+
+    if e_mem.registers[0] & 128:
+        carry_out = True
+    else:
+        carry_out = False
     e_mem.registers[0] = (e_mem.registers[0] & 127) << 1
-    e_mem.registers[0] += roll_value
-    if roll_value:
+    if carry_in:
+        e_mem.registers[0] = e_mem.registers[0] | 1
+    if carry_out:
         e_mem.registers[3] = e_mem.registers[3] | 1
     if e_mem.registers[0] & 128:
         e_mem.registers[3] = e_mem.registers[3] | 128
-    if e_mem.registers[0] == 0:
+    elif e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "2A", "ROL", "   A", "-- --", e_mem)
 
@@ -187,15 +196,24 @@ def adc_imme(e_mem):
 def ror_a(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
+    if e_mem.registers[3] & 1:
+        carry_in = True
+    else:
+        carry_in = False
     e_mem.registers[3] = e_mem.registers[3] & 124
-    roll_value = (e_mem.registers[0] & 1) << 7
-    e_mem.registers[0] = (e_mem.registers[0] & 127) >> 1
-    e_mem.registers[0] += roll_value
-    if roll_value:
+
+    if e_mem.registers[0] & 1:
+        carry_out = True
+    else:
+        carry_out = False
+    e_mem.registers[0] = (e_mem.registers[0] & 255) >> 1
+    if carry_in:
+        e_mem.registers[0] = e_mem.registers[0] | 128
+    if carry_out:
         e_mem.registers[3] = e_mem.registers[3] | 1
     if e_mem.registers[0] & 128:
         e_mem.registers[3] = e_mem.registers[3] | 128
-    if e_mem.registers[0] == 0:
+    elif e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "6A", "ROR", "   A", "-- --", e_mem)
 
