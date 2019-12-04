@@ -94,7 +94,7 @@ def plp(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
     e_mem.registers[4] += 1
-    e_mem.registers[0] = e_mem.memory[e_mem.registers[4] + 256]
+    e_mem.registers[0] = e_mem.memory[e_mem.registers[4] + 255]
     op_print(pc, "28", "PLP", "impl", "-- --", e_mem)
 
 
