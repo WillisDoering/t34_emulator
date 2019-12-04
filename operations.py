@@ -12,7 +12,7 @@ def inv_error(e_mem):
     e_mem.registers[3] = e_mem.registers[3] | 4
 
 
-# Returns result and flags for operation
+# Returns result and flags for addition
 def sign_add(op1, op2):
     flags = 32
     if op1 & 128:
@@ -200,6 +200,21 @@ def ror_a(e_mem):
     op_print(pc, "6A", "ROR", "   A", "-- --", e_mem)
 
 
+# 6D: Add Memory to Accumulator with Carry (absolute)
+def adc_abs(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    op2 = e_mem.memory[e_mem.pc + 2]
+    e_mem.pc += 3
+    e_mem.registers[3] = e_mem.registers[3] & 60
+
+    e_mem.registers[0], flags = sign_add(e_mem.memory[(op2 * 256) + op1], e_mem.registers[0])
+    e_mem.registers[3] = e_mem.registers[3] | flags
+
+    oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
+    op_print(pc, "6D", "ADC", " abs", oprnd, e_mem)
+
+
 # 78: Set Interrupt Disable Status
 def sei(e_mem):
     pc = e_mem.pc
@@ -335,7 +350,7 @@ def tax(e_mem):
         e_mem.registers[3] = e_mem.registers[3] | 128
     if e_mem.registers[1] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
-    op_print(pc, "A8", "TAY", "impl", "-- --", e_mem)
+    op_print(pc, "AA", "TAX", "impl", "-- --", e_mem)
 
 
 # AD: Load Accumulator with Memory (absolute)

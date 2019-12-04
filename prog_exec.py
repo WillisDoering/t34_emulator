@@ -15,6 +15,7 @@ opc_table = {
     104: op.pla,        # 68
     105: op.adc_imme,   # 69
     106: op.ror_a,      # 6A
+    109: op.adc_abs,    # 6D
     120: op.sei,        # 78
     133: op.sta_zpg,    # 85
     136: op.dey,        # 88
