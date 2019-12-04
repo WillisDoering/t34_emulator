@@ -482,6 +482,7 @@ def inc_zpg(e_mem):
 def inx(e_mem):
     pc = e_mem.pc
     e_mem.pc += 1
+    e_mem.registers[3] = e_mem.registers[3] & 125
     if e_mem.registers[1] & 128:
         e_mem.registers[3] = e_mem.registers[3] | 128
         e_mem.registers[1] += 1
