@@ -12,6 +12,7 @@ opc_table = {
     0x48: op.pha,
     0x4A: op.lsr_a,
     0x58: op.cli,
+    0x65: op.adc_zpg,
     0x68: op.pla,
     0x69: op.adc_imme,
     0x6A: op.ror_a,

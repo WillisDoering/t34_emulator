@@ -164,6 +164,20 @@ def cli(e_mem):
     op_print(pc, "58", "CLI", "impl", "-- --", e_mem)
 
 
+# 65: Add Memory to Accumulator with Carry (zeropage)
+def adc_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 60
+
+    e_mem.registers[0], flags = sign_add(e_mem.memory(op1), e_mem.registers[0])
+    e_mem.registers[3] = e_mem.registers[3] | flags
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "65", "ADC", " zpg", oprnd, e_mem)
+
+
 # 68: Pull Accumulator from Stack
 def pla(e_mem):
     pc = e_mem.pc
