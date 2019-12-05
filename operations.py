@@ -379,6 +379,18 @@ def sta_zpg(e_mem):
     op_print(pc, "85", "STA", " zpg", oprnd, e_mem)
 
 
+# 86: Store Index X in Memory (zeropage)
+def stx_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+
+    e_mem.memory[op1] = e_mem.registers[1]
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "86", "STX", " zpg", oprnd, e_mem)
+
+
 # 88: Decrement Index Y by One
 def dey(e_mem):
     pc = e_mem.pc

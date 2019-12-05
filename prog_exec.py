@@ -26,6 +26,7 @@ opc_table = {
     0x6D: op.adc_abs,
     0x78: op.sei,
     0x85: op.sta_zpg,
+    0x86: op.stx_zpg,
     0x88: op.dey,
     0x8A: op.txa,
     0x8D: op.sta_abs,
