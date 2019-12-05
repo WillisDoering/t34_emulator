@@ -135,6 +135,24 @@ def plp(e_mem):
     op_print(pc, "28", "PLP", "impl", "-- --", e_mem)
 
 
+# 29: AND Memory ith Accumulator (immediate)
+def and_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = e_mem.registers[0] & op1
+
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "29", "AND", "   #", oprnd, e_mem)
+
+
 # 2A: Rotate One Bit Left (Accumulator)
 def rol_a(e_mem):
     pc = e_mem.pc
