@@ -367,6 +367,18 @@ def sei(e_mem):
     op_print(pc, "78", "SEI", "impl", "-- --", e_mem)
 
 
+# 84: Store Index Y in Memory (zeropage)
+def sty_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+
+    e_mem.memory[op1] = e_mem.registers[2]
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "84", "STY", " zpg", oprnd, e_mem)
+
+
 # 85: Store Accumulator in Memory (zeropage)
 def sta_zpg(e_mem):
     pc = e_mem.pc
