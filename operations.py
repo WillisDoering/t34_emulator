@@ -463,6 +463,25 @@ def dex(e_mem):
     op_print(pc, "CA", "DEX", "impl", "-- --", e_mem)
 
 
+# D0: Branch on Result not Zero
+def bne(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    if e_mem.registers[3] & 64:
+        if e_mem.pc < 128:
+            e_mem.pc += op1
+        else:
+            op1 = op1 & 127
+            op1 -= 128
+            e_mem.pc += op1
+    else:
+        e_mem.pc += 2
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "D0", "BNE", " rel", oprnd, e_mem)
+
+
 # D8: Clear Decimal Mode
 def cld(e_mem):
     pc = e_mem.pc

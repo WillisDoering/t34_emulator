@@ -32,6 +32,7 @@ opc_table = {
     0xBA: op.tsx,
     0xC8: op.iny,
     0xCA: op.dex,
+    0xD0: op.bne,
     0xD8: op.cld,
     0xE6: op.inc_zpg,
     0xE8: op.inx,
