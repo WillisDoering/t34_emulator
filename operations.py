@@ -161,6 +161,18 @@ def pha(e_mem):
     op_print(pc, "48", "PHA", "impl", "-- --", e_mem)
 
 
+# 49: Exclusive-OR Memory with Accumulator (immediate)
+def eor_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+
+    e_mem.registers[0] = e_mem.registers[0] ^ op1
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "49", "EOR", "   #", oprnd, e_mem)
+
+
 # 4A: Shift One Bit Right (Accumulator)
 def lsr_a(e_mem):
     pc = e_mem.pc
@@ -412,6 +424,25 @@ def txs(e_mem):
     e_mem.pc += 1
     e_mem.registers[4] = e_mem.registers[1]
     op_print(pc, "9A", "TXS", "impl", "-- --", e_mem)
+
+
+# A0: Load Index Y with Memory (immediate)
+def ldy_imme(e_mem):
+    pc = e_mem.pc
+    flag_set = 0
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[2] = op1
+    if e_mem.registers[2] & 128:
+        flag_set += 128
+    if e_mem.registers[2] == 0:
+        flag_set += 0
+    e_mem.registers[3] = e_mem.registers[3] | flag_set
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "A0", "LDY", "   #", oprnd, e_mem)
 
 
 # A2: Load Index X with Memory (immediate)
