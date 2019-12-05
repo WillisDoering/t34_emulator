@@ -165,7 +165,7 @@ def jmp_abs(e_mem):
     e_mem.pc = (op2 * 256) + op1
 
     oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
-    op_print(pc, "6C", "JMP", " abs", oprnd, e_mem)
+    op_print(pc, "4C", "JMP", " abs", oprnd, e_mem)
 
 
 # 58: Clear Interrupt Disable Bit
@@ -326,6 +326,25 @@ def txa(e_mem):
     elif e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "8A", "TXA", "impl", "-- --", e_mem)
+
+
+# 90: Branch on Carry Clear
+def bcc(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    if e_mem.registers[3] & 1:
+        e_mem.pc += 2
+    else:
+        if e_mem.pc < 128:
+            e_mem.pc += op1
+        else:
+            op1n = op1 & 127
+            op1n -= 128
+            e_mem.pc += op1n
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "90", "BCC", " rel", oprnd, e_mem)
 
 
 # 98: Transfer Index Y to Accumulator
@@ -497,9 +516,9 @@ def bne(e_mem):
         if e_mem.pc < 128:
             e_mem.pc += op1
         else:
-            op1 = op1 & 127
-            op1 -= 128
-            e_mem.pc += op1
+            op1n = op1 & 127
+            op1n -= 128
+            e_mem.pc += op1n
     else:
         e_mem.pc += 2
 

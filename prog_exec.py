@@ -23,6 +23,7 @@ opc_table = {
     0x85: op.sta_zpg,
     0x88: op.dey,
     0x8A: op.txa,
+    0x90: op.bcc,
     0x98: op.tya,
     0x9A: op.txs,
     0xA2: op.ldx_imme,
