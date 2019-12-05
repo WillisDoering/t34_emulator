@@ -108,6 +108,24 @@ def jsr(e_mem):
     op_print(pc, "20", "JSR", " abs", oprnd, e_mem)
 
 
+# 25: AND Memory with Accumulator (zeropage)
+def and_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = e_mem.registers[0] & op1
+
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "25", "AND", " zpg", oprnd, e_mem)
+
+
 # 28: Pull Processor Status from Stack
 def plp(e_mem):
     pc = e_mem.pc
@@ -167,6 +185,7 @@ def eor_imme(e_mem):
     op1 = e_mem.memory[pc + 1]
     e_mem.pc += 2
 
+    # TODO: Put in flags
     e_mem.registers[0] = e_mem.registers[0] ^ op1
 
     oprnd = ('{:02X}'.format(op1) + " --")
@@ -589,7 +608,7 @@ def cmp_imme(e_mem):
     comp = 255 - op1
     result = e_mem.registers[0] + comp + carry
 
-    e_mem.registers[3] = e_mem.registers[3] & 131
+    e_mem.registers[3] = e_mem.registers[3] & 124
     if result > 255:
         result -= 255
         e_mem.registers[3] | 1
