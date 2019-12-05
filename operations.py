@@ -156,6 +156,18 @@ def lsr_a(e_mem):
     op_print(pc, "4A", "LSR", "   A", "-- --", e_mem)
 
 
+# 4C: Jump to New Location (absolute)
+def jmp_abs(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    op2 = e_mem.memory[pc + 2]
+
+    e_mem.pc = (op2 * 256) + op1
+
+    oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
+    op_print(pc, "6C", "JMP", " abs", oprnd, e_mem)
+
+
 # 58: Clear Interrupt Disable Bit
 def cli(e_mem):
     pc = e_mem.pc
