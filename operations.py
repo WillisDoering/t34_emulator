@@ -232,6 +232,19 @@ def ror_a(e_mem):
     op_print(pc, "6A", "ROR", "   A", "-- --", e_mem)
 
 
+# 6C: Jump to New Location (indirect)
+def jmp_ind(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    op2 = e_mem.memory[pc + 2]
+
+    addr_loc = (op2 * 256) + op1
+    e_mem.pc = (e_mem.memory[addr_loc + 1] * 256) + e_mem.memory[addr_loc]
+
+    oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
+    op_print(pc, "6C", "JMP", " ind", oprnd, e_mem)
+
+
 # 6D: Add Memory to Accumulator with Carry (absolute)
 def adc_abs(e_mem):
     pc = e_mem.pc

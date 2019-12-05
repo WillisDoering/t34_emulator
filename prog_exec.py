@@ -16,6 +16,7 @@ opc_table = {
     0x68: op.pla,
     0x69: op.adc_imme,
     0x6A: op.ror_a,
+    0x6C: op.jmp_ind,
     0x6D: op.adc_abs,
     0x78: op.sei,
     0x85: op.sta_zpg,
