@@ -4,6 +4,7 @@ import operations as op
 opc_table = {
     0x00: op.brk,
     0x08: op.php,
+    0x09: op.ora_imme,
     0x0A: op.asl_a,
     0x18: op.clc,
     0x20: op.jsr,

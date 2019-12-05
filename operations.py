@@ -65,6 +65,24 @@ def php(e_mem):
     op_print(pc, "08", "PHP", "impl", "-- --", e_mem)
 
 
+# 09: OR Memory with Accumulator (immediate)
+def ora_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = e_mem.registers[0] | op1
+
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "09", "ORA", "   #", oprnd, e_mem)
+
+
 # 0A: Shift Left One Bit (Accumulator)
 def asl_a(e_mem):
     pc = e_mem.pc
@@ -692,9 +710,7 @@ def cmp_imme(e_mem):
     op1 = e_mem.memory[pc + 1]
     e_mem.pc += 2
 
-    carry = e_mem.registers[3] & 1
-    comp = 255 - op1
-    result = e_mem.registers[0] + comp + carry
+    result = (e_mem.registers[0] & 255) + (op1 ^ 255) + 1
 
     e_mem.registers[3] = e_mem.registers[3] & 124
     if result > 255:
