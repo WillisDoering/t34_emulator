@@ -187,6 +187,27 @@ def sec(e_mem):
     op_print(pc, "38", "SEC", "impl", "-- --", e_mem)
 
 
+# 46: Shift One Bit Right in Memory (zeropage)
+def lsr_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 252
+
+    opz = e_mem.memory[op1]
+    if opz & 1:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+        opz = opz & 254
+    opz = opz >> 1
+    if opz == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+
+    e_mem.memory[op1] = opz
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "46", "LSR", " zpg", oprnd, e_mem)
+
+
 # 48: Push Accumulator on Stack
 def pha(e_mem):
     pc = e_mem.pc
