@@ -115,7 +115,7 @@ def and_zpg(e_mem):
     e_mem.pc += 2
     e_mem.registers[3] = e_mem.registers[3] & 125
 
-    e_mem.registers[0] = e_mem.registers[0] & op1
+    e_mem.registers[0] = e_mem.registers[0] & e_mem.memory[op1]
 
     if e_mem.registers[0] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
