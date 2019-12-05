@@ -35,6 +35,7 @@ opc_table = {
     0xA0: op.ldy_imme,
     0xA2: op.ldx_imme,
     0xA5: op.lda_zpg,
+    0xA6: op.ldx_zpg,
     0xA8: op.tay,
     0xA9: op.lda_imme,
     0xAA: op.tax,
