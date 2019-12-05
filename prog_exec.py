@@ -40,6 +40,7 @@ opc_table = {
     0xB8: op.clv,
     0xBA: op.tsx,
     0xC8: op.iny,
+    0xC9: op.cmp_imme,
     0xCA: op.dex,
     0xD0: op.bne,
     0xD8: op.cld,
