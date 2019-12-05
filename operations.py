@@ -184,9 +184,14 @@ def eor_imme(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[pc + 1]
     e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
 
-    # TODO: Put in flags
     e_mem.registers[0] = e_mem.registers[0] ^ op1
+
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
 
     oprnd = ('{:02X}'.format(op1) + " --")
     op_print(pc, "49", "EOR", "   #", oprnd, e_mem)
