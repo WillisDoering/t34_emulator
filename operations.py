@@ -89,6 +89,25 @@ def clc(e_mem):
     op_print(pc, "18", "CLC", "impl", "-- --", e_mem)
 
 
+# 20: Jump to New Location Saving Return Address
+def jsr(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    op2 = e_mem.memory[pc + 2]
+
+    pc_push = (e_mem.pc + 2) % 256
+    e_mem.memory[e_mem.registers[4] + 256] = pc_push
+    e_mem.registers[4] -= 1
+    pc_push = int((e_mem.pc + 2) / 256)
+    e_mem.memory[e_mem.registers[4] + 256] = pc_push
+    e_mem.registers[4] -= 1
+
+    e_mem.pc = (op2 * 256) + op1
+
+    oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
+    op_print(pc, "20", "JSR", " abs", oprnd, e_mem)
+
+
 # 28: Pull Processor Status from Stack
 def plp(e_mem):
     pc = e_mem.pc
@@ -174,6 +193,20 @@ def cli(e_mem):
     e_mem.pc += 1
     e_mem.registers[3] = e_mem.registers[3] & 251
     op_print(pc, "58", "CLI", "impl", "-- --", e_mem)
+
+
+# 60: Return from Subroutine
+def rts(e_mem):
+    pc = e_mem.pc
+
+    e_mem.registers[4] += 1
+    pch = e_mem.memory[e_mem.registers[4] + 256]
+    e_mem.registers[4] += 1
+    pcl = e_mem.memory[e_mem.registers[4] + 256]
+
+    e_mem.pc = (pch * 256) + pcl + 1
+
+    op_print(pc, "60", "RTS", " imp", "-- --", e_mem)
 
 
 # 65: Add Memory to Accumulator with Carry (zeropage)
@@ -328,6 +361,19 @@ def txa(e_mem):
     op_print(pc, "8A", "TXA", "impl", "-- --", e_mem)
 
 
+# 8D: Store Accumulator in Memory
+def sta_abs(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    op2 = e_mem.memory[e_mem.pc + 2]
+    e_mem.pc += 3
+
+    e_mem.memory[(op2 * 256) + op1] = e_mem.registers[0]
+
+    oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
+    op_print(pc, "8D", "STA", " abs", oprnd, e_mem)
+
+
 # 90: Branch on Carry Clear
 def bcc(e_mem):
     pc = e_mem.pc
@@ -415,6 +461,23 @@ def tay(e_mem):
     if e_mem.registers[2] == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
     op_print(pc, "A8", "TAY", "impl", "-- --", e_mem)
+
+
+# A9: Load Accumulator with Memory (immediate)
+def lda_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = op1
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "A9", "LDA", "   #", oprnd, e_mem)
 
 
 # AA: Transfer Accumulator to Index X
