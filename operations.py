@@ -94,22 +94,22 @@ def brk(e_mem):
 # 06: Shift Left One Bit (zeropage)
 def asl_zpg(e_mem):
     pc = e_mem.pc
-    op1 = e_mem.memory[e_mem.memory[pc + 1]]
+    op1 = e_mem.memory[pc + 1]
+    res = e_mem.memory[op1]
     e_mem.pc += 2
     e_mem.registers[3] = e_mem.registers[3] & 124
-    result = op1
 
     if op1 & 128:
         e_mem.registers[3] = e_mem.registers[3] | 1
-        result = result & 127
-    result = result << 1
+        res = res & 127
+    res = res << 1
 
-    if result & 128:
+    if res & 128:
         e_mem.registers[3] = e_mem.registers[3] | 128
-    if result == 0:
+    if res == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
 
-    e_mem.memory[e_mem.memory[pc + 1]] = result
+    e_mem.memory[op1] = res
     oprnd = ('{:02X}'.format(op1) + " --")
     op_print(pc, "06", "ASL", " zpg", oprnd, e_mem)
 
@@ -763,8 +763,8 @@ def tsx(e_mem):
 # C6: Decrement Memory by One (zeropage)
 def dec_zpg(e_mem):
     pc = e_mem.pc
-    op1 = e_mem.memory[e_mem.memory[pc + 1]]
-    res = op1
+    op1 = e_mem.memory[pc + 1]
+    res = e_mem.memory[op1]
     e_mem.pc += 2
     e_mem.registers[3] = e_mem.registers[3] & 125
 
@@ -783,7 +783,7 @@ def dec_zpg(e_mem):
     if res == 0:
         e_mem.registers[3] = e_mem.registers[3] | 2
 
-    e_mem.memory[e_mem.memory[pc + 1]] = res
+    e_mem.memory[op1] = res
     oprnd = ('{:02X}'.format(op1) + " --")
     op_print(pc, "C6", "DEC", " zpg", oprnd, e_mem)
 
