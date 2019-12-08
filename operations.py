@@ -96,10 +96,6 @@ def asl_zpg(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[e_mem.memory[pc + 1]]
     e_mem.pc += 2
-    if e_mem.registers[3] & 1:
-        carry = True
-    else:
-        carry = False
     e_mem.registers[3] = e_mem.registers[3] & 124
     result = op1
 
@@ -107,8 +103,6 @@ def asl_zpg(e_mem):
         e_mem.registers[3] = e_mem.registers[3] | 1
         result = result & 127
     result = result << 1
-    if carry:
-        result += 1
 
     if result & 128:
         e_mem.registers[3] = e_mem.registers[3] | 128
