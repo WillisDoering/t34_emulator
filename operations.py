@@ -221,6 +221,37 @@ def and_zpg(e_mem):
     op_print(pc, "25", "AND", " zpg", oprnd, e_mem)
 
 
+# 26: Rotate One Bit Left (zeropage)
+def rol_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    res = e_mem.memory[op1]
+    e_mem.pc += 1
+    if e_mem.registers[3] & 1:
+        carry_in = True
+    else:
+        carry_in = False
+    e_mem.registers[3] = e_mem.registers[3] & 124
+
+    if res & 128:
+        carry_out = True
+    else:
+        carry_out = False
+    res = (res & 127) << 1
+    if carry_in:
+        res |= 1
+    if carry_out:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+    if res & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    elif res == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+
+    e_mem.memory[op1] = res
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "26", "ROL", " zpg", oprnd, e_mem)
+
+
 # 28: Pull Processor Status from Stack
 def plp(e_mem):
     pc = e_mem.pc
