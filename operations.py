@@ -91,6 +91,35 @@ def brk(e_mem):
     op_print(pc, "00", "BRK", "impl", "-- --", e_mem)
 
 
+# 06: Shift Left One Bit (zeropage)
+def asl_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.memory[pc + 1]]
+    e_mem.pc += 2
+    if e_mem.registers[3] & 1:
+        carry = True
+    else:
+        carry = False
+    e_mem.registers[3] = e_mem.registers[3] & 124
+    result = op1
+
+    if op1 & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+        result = result & 127
+    result = result << 1
+    if carry:
+        result += 1
+
+    if result & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    if result == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+
+    e_mem.memory[e_mem.memory[pc + 1]] = result
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "06", "ASL", " zpg", oprnd, e_mem)
+
+
 # 08: Push Processor Status on Stack
 def php(e_mem):
     pc = e_mem.pc
