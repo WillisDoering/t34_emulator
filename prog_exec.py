@@ -52,6 +52,7 @@ opc_table = {
     0xD0: op.bne,
     0xD8: op.cld,
     0xE6: op.inc_zpg,
+    0xE9: op.sbc_imme,
     0xE8: op.inx,
     0xEA: op.nop,
     0xF8: op.sed,

@@ -15,19 +15,21 @@ def inv_error(e_mem):
 # Returns result and flags for addition
 def sign_add(op1, op2):
     flags = 32
+    negative = False
+
     if op1 & 128:
-        op1 = op1 & 127
         op1 -= 128
+        negative = not negative
 
     if op2 & 128:
-        op2 = op2 & 127
         op2 -= 128
+        negative = not negative
 
     result = op1 + op2
 
     if result == 0:
         flags = flags | 2
-    elif result > 127:
+    elif negative:
         result -= 128
         flags = flags | 65
     elif result < 0:
@@ -36,6 +38,39 @@ def sign_add(op1, op2):
         if result < 0:
             result += 128
             flags = flags | 64
+
+    return result, flags
+
+
+# Returns result and flags for subtraction
+def sign_sub(op1, op2):
+    flags = 32
+    negative = False
+    d_neg = False
+
+    if op1 & 128:
+        op1 -= 128
+        negative = True
+
+    if op2 & 128:
+        op2 -= 128
+        d_neg = True
+
+    if d_neg:
+        result = op1 + op2
+    else:
+        result = op1 - op2
+
+    if negative:
+        result -= 128
+    if result < 0:
+        result += 256
+        flags = flags | 128
+        if result < 0:
+            result += 256
+            flags = flags | 65
+    if result == 0:
+        flags = flags | 2
 
     return result, flags
 
@@ -815,6 +850,25 @@ def inx(e_mem):
             e_mem.registers[3] = e_mem.registers[3] | 2
 
     op_print(pc, "E8", "INX", "impl", "-- --", e_mem)
+
+
+# E9: Subtract Memory from Accumulator with Borrow
+def sbc_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 60
+
+    e_mem.registers[0], flags = sign_sub(e_mem.registers[0], op1)
+    e_mem.registers[3] = e_mem.registers[3] | flags
+
+    if e_mem.registers[3] & 1:
+        e_mem.registers[3] &= 130
+        e_mem.registers[0], flags = sign_sub(e_mem.registers[0], 1)
+        e_mem.registers[3] = e_mem.registers[3] | flags
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "E9", "SBC", "   #", oprnd, e_mem)
 
 
 # EA: No Operation
