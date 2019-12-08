@@ -741,6 +741,34 @@ def tsx(e_mem):
     op_print(pc, "BA", "TSX", "impl", "-- --", e_mem)
 
 
+# C6: Decrement Memory by One (zeropage)
+def dec_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.memory[pc + 1]]
+    res = op1
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    if res & 128:
+        res -= 1
+        if res < 128:
+            res = 0
+        else:
+            e_mem.registers[3] = e_mem.registers[3] | 128
+    else:
+        if res == 0:
+            res = 255
+            e_mem.registers[3] = e_mem.registers[3] | 128
+        else:
+            res -= 1
+    if res == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+
+    e_mem.memory[e_mem.memory[pc + 1]] = res
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "C6", "DEC", " zpg", oprnd, e_mem)
+
+
 # C8: Increment Index Y by One
 def iny(e_mem):
     pc = e_mem.pc

@@ -47,6 +47,7 @@ opc_table = {
     0xAD: op.lda_abs,
     0xB8: op.clv,
     0xBA: op.tsx,
+    0xC6: op.dec_zpg,
     0xC8: op.iny,
     0xC9: op.cmp_imme,
     0xCA: op.dex,
