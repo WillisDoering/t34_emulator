@@ -981,6 +981,26 @@ def cld(e_mem):
     op_print(pc, "D8", "CLD", "impl", "-- --", e_mem)
 
 
+# E5: Subtract Memory from Accumulator with Borrow (zeropage)
+def sbc_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[e_mem.pc + 1]
+    res = e_mem.memory[op1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 60
+
+    e_mem.registers[0], flags = sign_sub(e_mem.registers[0], res)
+    e_mem.registers[3] = e_mem.registers[3] | flags
+
+    if e_mem.registers[3] & 1:
+        e_mem.registers[3] &= 130
+        e_mem.registers[0], flags = sign_sub(e_mem.registers[0], 1)
+        e_mem.registers[3] = e_mem.registers[3] | flags
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "E9", "SBC", "   #", oprnd, e_mem)
+
+
 # E6: Increment Memory by One (zeropage)
 def inc_zpg(e_mem):
     pc = e_mem.pc
