@@ -3,6 +3,7 @@ import operations as op
 
 opc_table = {
     0x00: op.brk,
+    0x05: op.ora_zpg,
     0x06: op.asl_zpg,
     0x08: op.php,
     0x09: op.ora_imme,

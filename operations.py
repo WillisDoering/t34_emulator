@@ -91,6 +91,25 @@ def brk(e_mem):
     op_print(pc, "00", "BRK", "impl", "-- --", e_mem)
 
 
+# 05: OR Memory with Accumulator (zeropage)
+def ora_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    res = e_mem.memory[op1]
+    e_mem.pc += 2
+    e_mem.registers[3] = e_mem.registers[3] & 125
+
+    e_mem.registers[0] = e_mem.registers[0] | res
+
+    if e_mem.registers[0] == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+    elif e_mem.registers[0] & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "05", "ORA", " zpg", oprnd, e_mem)
+
+
 # 06: Shift Left One Bit (zeropage)
 def asl_zpg(e_mem):
     pc = e_mem.pc
