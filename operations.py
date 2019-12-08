@@ -226,7 +226,7 @@ def rol_zpg(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[pc + 1]
     res = e_mem.memory[op1]
-    e_mem.pc += 1
+    e_mem.pc += 2
     if e_mem.registers[3] & 1:
         carry_in = True
     else:
@@ -441,6 +441,37 @@ def adc_zpg(e_mem):
 
     oprnd = ('{:02X}'.format(op1) + " --")
     op_print(pc, "65", "ADC", " zpg", oprnd, e_mem)
+
+
+# 66: Rotate One Bit Right (zeropage)
+def ror_a(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    res = e_mem.memory[op1]
+    e_mem.pc += 2
+    if e_mem.registers[3] & 1:
+        carry_in = True
+    else:
+        carry_in = False
+    e_mem.registers[3] = e_mem.registers[3] & 124
+
+    if res & 1:
+        carry_out = True
+    else:
+        carry_out = False
+    res = (res & 255) >> 1
+    if carry_in:
+        res |= 128
+    if carry_out:
+        e_mem.registers[3] = e_mem.registers[3] | 1
+    if res & 128:
+        e_mem.registers[3] = e_mem.registers[3] | 128
+    elif res == 0:
+        e_mem.registers[3] = e_mem.registers[3] | 2
+
+    e_mem.memory[op1] = res
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "66", "ROR", " zpg", oprnd, e_mem)
 
 
 # 68: Pull Accumulator from Stack
