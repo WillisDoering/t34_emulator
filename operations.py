@@ -13,7 +13,7 @@ def inv_error(e_mem):
 
 
 # Returns result and flags for addition
-def sign_add(op1, op2):
+def sign_add(op1, op2, carry=False):
     flags = 32
     negative = False
 
@@ -26,18 +26,20 @@ def sign_add(op1, op2):
         negative = not negative
 
     result = op1 + op2
+    if carry:
+        result += 1
 
     if result == 0:
         flags = flags | 2
     elif negative:
         result -= 128
-        flags = flags | 65
+        flags |= 1
     elif result < 0:
-        result += 128
-        flags = flags | 128
+        result += 256
+        flags |= 128
         if result < 0:
-            result += 128
-            flags = flags | 64
+            result += 256
+            flags |= 64
 
     return result, flags
 
@@ -493,10 +495,14 @@ def adc_imme(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[e_mem.pc + 1]
     e_mem.pc += 2
+    if e_mem.registers[3] & 1:
+        carry = True
+    else:
+        carry = False
     e_mem.registers[3] = e_mem.registers[3] & 60
 
-    e_mem.registers[0], flags = sign_add(op1, e_mem.registers[0])
-    e_mem.registers[3] = e_mem.registers[3] | flags
+    e_mem.registers[0], flags = sign_add(op1, e_mem.registers[0], carry)
+    e_mem.registers[3] |= flags
 
     oprnd = ('{:02X}'.format(op1) + " --")
     op_print(pc, "69", "ADC", "   #", oprnd, e_mem)
@@ -546,10 +552,14 @@ def adc_abs(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[e_mem.pc + 1]
     op2 = e_mem.memory[e_mem.pc + 2]
+    if e_mem.registers[3] & 1:
+        carry = True
+    else:
+        carry = False
     e_mem.pc += 3
     e_mem.registers[3] = e_mem.registers[3] & 60
 
-    e_mem.registers[0], flags = sign_add(e_mem.memory[(op2 * 256) + op1], e_mem.registers[0])
+    e_mem.registers[0], flags = sign_add(e_mem.memory[(op2 * 256) + op1], e_mem.registers[0], carry)
     e_mem.registers[3] = e_mem.registers[3] | flags
 
     oprnd = ('{:02X}'.format(op1) + ' ' + '{:02X}'.format(op2))
@@ -915,17 +925,13 @@ def cmp_imme(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[pc + 1]
     e_mem.pc += 2
+    e_mem.registers[3] &= 124
 
-    result = (e_mem.registers[0] & 255) + (op1 ^ 255) + 1
-
-    e_mem.registers[3] = e_mem.registers[3] & 124
-    if result > 255:
-        result -= 255
-        e_mem.registers[3] | 1
-    if result == 0:
-        e_mem.registers[3] | 2
-    elif result & 128:
-        e_mem.registers[3] | 128
+    res = e_mem.registers[0] + (op1 ^ 0xFF) + 1
+    if res & 256:
+        e_mem.registers[3] |= 1
+    if (res & 255) == 0:
+        e_mem.registers[3] |= 2
 
     oprnd = ('{:02X}'.format(op1) + " --")
     op_print(pc, "C9", "CMP", "   #", oprnd, e_mem)
