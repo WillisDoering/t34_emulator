@@ -20,8 +20,7 @@ def main():
     # Evaluate User input
     while 1:
         try:
-            # TODO: Reinsert '> ' into input
-            user_in = input()
+            user_in = input('> ')
         except EOFError:
             scream_and_die()
         evaluate(e_mem, user_in)
@@ -109,8 +108,7 @@ def parse_file(e_mem):
 
 
 def scream_and_die():
-    # TODO: Uncomment
-    # print("Emulator Shutting Down...", file=sys.stderr)
+    print("Emulator Shutting Down...", file=sys.stderr)
     sys.exit(0)
 
 
