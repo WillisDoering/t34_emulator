@@ -871,7 +871,7 @@ def tsx(e_mem):
     op_print(pc, "BA", "TSX", "impl", "-- --", e_mem)
 
 
-# C5: Compare Memory with Accumulator (immediate)
+# C5: Compare Memory with Accumulator (zeropage)
 def cmp_zpg(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[pc + 1]
@@ -885,7 +885,7 @@ def cmp_zpg(e_mem):
         e_mem.registers[3] |= 2
 
     oprnd = ('{:02X}'.format(op1) + " --")
-    op_print(pc, "C5", "CMP", "   zpg", oprnd, e_mem)
+    op_print(pc, "C5", "CMP", " zpg", oprnd, e_mem)
 
 
 # C6: Decrement Memory by One (zeropage)
@@ -1001,6 +1001,40 @@ def cld(e_mem):
     e_mem.pc += 1
     e_mem.registers[3] = e_mem.registers[3] & 247
     op_print(pc, "D8", "CLD", "impl", "-- --", e_mem)
+
+
+# E0: Compare Memory and X Index (immediate)
+def cpx_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 124
+
+    res = e_mem.registers[1] + (op1 ^ 0xFF) + 1
+    if res & 256:
+        e_mem.registers[3] |= 1
+    if (res & 255) == 0:
+        e_mem.registers[3] |= 2
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "E0", "CPX", "   #", oprnd, e_mem)
+
+
+# E4: Compare Memory and X Index (zeropage)
+def cpx_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 124
+
+    res = e_mem.registers[1] + (e_mem.memory[op1] ^ 0xFF) + 1
+    if res & 256:
+        e_mem.registers[3] |= 1
+    if (res & 255) == 0:
+        e_mem.registers[3] |= 2
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "E4", "CPX", " zpg", oprnd, e_mem)
 
 
 # E5: Subtract Memory from Accumulator with Borrow (zeropage)
