@@ -446,7 +446,7 @@ def adc_zpg(e_mem):
 
 
 # 66: Rotate One Bit Right (zeropage)
-def ror_a(e_mem):
+def ror_zpg(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[pc + 1]
     res = e_mem.memory[op1]
@@ -871,6 +871,23 @@ def tsx(e_mem):
     op_print(pc, "BA", "TSX", "impl", "-- --", e_mem)
 
 
+# C5: Compare Memory with Accumulator (immediate)
+def cmp_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 124
+
+    res = e_mem.registers[0] + (e_mem.memory[op1] ^ 0xFF) + 1
+    if res & 256:
+        e_mem.registers[3] |= 1
+    if (res & 255) == 0:
+        e_mem.registers[3] |= 2
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "C5", "CMP", "   zpg", oprnd, e_mem)
+
+
 # C6: Decrement Memory by One (zeropage)
 def dec_zpg(e_mem):
     pc = e_mem.pc
@@ -919,7 +936,6 @@ def iny(e_mem):
     op_print(pc, "C8", "INY", "impl", "-- --", e_mem)
 
 
-# TODO: Fix Compare
 # C9: Compare Memory with Accumulator (immediate)
 def cmp_imme(e_mem):
     pc = e_mem.pc
