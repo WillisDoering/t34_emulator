@@ -315,7 +315,7 @@ def sec(e_mem):
     op_print(pc, "38", "SEC", "impl", "-- --", e_mem)
 
 
-# 45: Exclusive-OR Memory with Accumulator (immediate)
+# 45: Exclusive-OR Memory with Accumulator (zeropage)
 def eor_zpg(e_mem):
     pc = e_mem.pc
     op1 = e_mem.memory[pc + 1]
