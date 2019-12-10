@@ -871,6 +871,40 @@ def tsx(e_mem):
     op_print(pc, "BA", "TSX", "impl", "-- --", e_mem)
 
 
+# C0: Compare Memory and Index Y (immediate)
+def cpy_imme(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 124
+
+    res = e_mem.registers[2] + (op1 ^ 0xFF) + 1
+    if res & 256:
+        e_mem.registers[3] |= 1
+    if (res & 255) == 0:
+        e_mem.registers[3] |= 2
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "C0", "CPY", "   #", oprnd, e_mem)
+
+
+# C4: Compare Memory with Index Y (zeropage)
+def cpy_zpg(e_mem):
+    pc = e_mem.pc
+    op1 = e_mem.memory[pc + 1]
+    e_mem.pc += 2
+    e_mem.registers[3] &= 124
+
+    res = e_mem.registers[2] + (e_mem.memory[op1] ^ 0xFF) + 1
+    if res & 256:
+        e_mem.registers[3] |= 1
+    if (res & 255) == 0:
+        e_mem.registers[3] |= 2
+
+    oprnd = ('{:02X}'.format(op1) + " --")
+    op_print(pc, "C4", "CPY", " zpg", oprnd, e_mem)
+
+
 # C5: Compare Memory with Accumulator (zeropage)
 def cmp_zpg(e_mem):
     pc = e_mem.pc
