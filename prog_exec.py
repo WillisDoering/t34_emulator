@@ -25,7 +25,7 @@ opc_table = {
     0x58: op.cli,
     0x60: op.rts,
     0x65: op.adc_zpg,
-    0x66: op.rol_zpg,
+    0x66: op.ror_zpg,
     0x68: op.pla,
     0x69: op.adc_imme,
     0x6A: op.ror_a,
@@ -65,8 +65,8 @@ opc_table = {
     0xE4: op.cpx_zpg,
     0xE5: op.sbc_zpg,
     0xE6: op.inc_zpg,
-    0xE9: op.sbc_imme,
     0xE8: op.inx,
+    0xE9: op.sbc_imme,
     0xEA: op.nop,
     0xF8: op.sed,
 }
